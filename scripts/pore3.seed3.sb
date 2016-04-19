@@ -1,0 +1,17 @@
+#!/bin/bash
+#SBATCH --job-name="pore3.seed3"
+#SBATCH --output="out.log"
+#SBATCH --partition=compute
+#SBATCH --nodes=4
+#SBATCH --ntasks-per-node=24
+#SBATCH --export=ALL
+#SBATCH -t 42:58:00
+
+sleep 30s
+
+module load lammps
+export EXE=`which lammps`
+export OMP_NUM_THREADS=1
+
+cd /home/apoorvk/trials/pore3.seed3
+ibrun $EXE -echo screen -in hydrogen.pore3.seed3.in -log lammps.pore3.seed3.log
