@@ -32,7 +32,6 @@ do
 				FILENAME="hydrogen.pore$hole.seed$seed"
 				rm -f $OUTPUT/$FILENAME.in
 				cat >$OUTPUT/$FILENAME.in << EOF
-# Apoorv Khandelwal
 # March 20, 2016
 # Hydrogenated graphene pore desalination, changing porosity and allowing membrane deformation
 

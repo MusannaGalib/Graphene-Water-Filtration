@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name="pore1.seed1"
+#SBATCH --job-name="pore3.seed3"
 #SBATCH --output="out.log"
 #SBATCH --partition=compute
 #SBATCH --nodes=4
@@ -13,5 +13,5 @@ module load lammps
 export EXE=`which lammps`
 export OMP_NUM_THREADS=1
 
-cd /home/apoorvk/trials/pore1.seed1
-ibrun $EXE -echo screen -in hydrogen.pore1.seed1.in -log lammps.pore1.seed1.log
+cd /home/user/trials/pore3.seed3
+ibrun $EXE -echo screen -in hydrogen.pore3.seed3.in -log lammps.pore3.seed3.log
