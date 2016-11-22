@@ -1,3 +1,5 @@
+**Computational dataset for research paper** [**Molecular Dynamics Simulation and Experimental Fabrication of Nanoporous Graphene Membranes for Optimal Water Permeability in Reverse Osmosis Desalination**](api.apoorvk.me/files/NPG-Desalination/ResearchPaper.pdf) **by Apoorv Khandelwal**
+
 **Molecular Dynamics Simulation Scripts for use with** [**LAMMPS software**](http://lammps.sandia.gov/)
 
 **&quot;Input Script Generation.txt&quot;** (bash file)
@@ -5,7 +7,7 @@
 -  Generates LAMMPS input file for variations in trials
 -  Constant temperature &amp; pressure; up to 5 pores and 3 seed values per pore count
 
-**&quot;Dataset.zip&quot;** : Input scripts &amp; sample data
+**&quot;Dataset&quot;** : Input scripts &amp; sample data
 
 - Files contained here can be run with LAMMPS to produce sample trial
 - Contents:
