@@ -1,4 +1,4 @@
-**Computational dataset for research paper** [**Molecular Dynamics Simulation and Experimental Fabrication of Nanoporous Graphene Membranes for Optimal Water Permeability in Reverse Osmosis Desalination**](api.apoorvk.me/files/NPG-Desalination/ResearchPaper.pdf) **by Apoorv Khandelwal**
+**Computational dataset for research paper** [**Molecular Dynamics Simulation and Experimental Fabrication of Nanoporous Graphene Membranes for Optimal Water Permeability in Reverse Osmosis Desalination**](http://api.apoorvk.me/files/NPG-Desalination/ResearchPaper.pdf) **by Apoorv Khandelwal**
 
 **Molecular Dynamics Simulation Scripts for use with** [**LAMMPS software**](http://lammps.sandia.gov/)
 
