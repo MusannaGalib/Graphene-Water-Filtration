@@ -27,10 +27,10 @@
 -  Establish system parameters and input from molecular geometry
 -  Set interaction parameters &amp; Lennard-Jones/Coulumbic
 -  Regions &amp; groups (water, membrane, pistons)
-- ** Minimization:** fix and relax bodies (set zero force on pistons)
-- ** Equilibration:** Set 150 MPa pressure on both pistons for 40-60 picoseconds (seed dependent)
-- ** Dynamics:** 10 nanosecond simulation of 32 MPa transmembrane pressure
-- ** Output:** Water molecule count on both sides of membrane, pressure, temperature, salt ion count
+- **Minimization:** fix and relax bodies (set zero force on pistons)
+- **Equilibration:** Set 150 MPa pressure on both pistons for 40-60 picoseconds (seed dependent)
+- **Dynamics:** 10 nanosecond simulation of 32 MPa transmembrane pressure
+- **Output:** Water molecule count on both sides of membrane, pressure, temperature, salt ion count
   -  Full atomic trajectory dump per 500 fs
   -  Restart file dump per 1.25 ns
 
@@ -39,6 +39,5 @@
 -  [San Diego Supercomputer Center Comet](https://www.sdsc.edu/support/user_guides/comet.html)
   -  LAMMPS module preinstalled
   -  24 cores/node &amp; used 4 nodes per trial (45 hr. ea.)
-- ** Login:** ssh user@comet.sdsc.edu
--  Trials were run in the &quot;pore1.seed1&quot; folder with Linux command:
-**lammps -in hydrogen.pore1.seed1.in -log lammps.pore1.seed1.log**
+- **Login:** ssh user@comet.sdsc.edu
+-  Trials were run in the &quot;pore1.seed1&quot; folder with Linux command:<br>**lammps -in hydrogen.pore1.seed1.in -log lammps.pore1.seed1.log**
