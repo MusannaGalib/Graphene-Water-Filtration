@@ -2,16 +2,19 @@
 
 **Molecular Dynamics Simulation Scripts for use with** [**LAMMPS software**](http://lammps.sandia.gov/)
 
-**&quot;Input Script Generation.txt&quot;** (bash file)
+**&quot;Input Script Generation.sh&quot;** (bash file)
 
 -  Generates LAMMPS input file for variations in trials
 -  Constant temperature &amp; pressure; up to 5 pores and 3 seed values per pore count
+
+**&quot;Calculations&quot;** : Membrane porosity and pressure calculations
+
+**&quot;Results&quot;** : Molecular filtration and system states over time for varied porosity trials
 
 **&quot;Dataset&quot;** : Input scripts &amp; sample data
 
 - Files contained here can be run with LAMMPS to produce sample trial
 - Contents:
-  - **&quot;Input Script Generation.sh&quot;** (see above)
   - **&quot;Batch Jobs.sh&quot;**: run all trials on supercomputer (where each trial has an execution script)
   - **&quot;scripts&quot; folder**: contains each trial&#39;s batch file to run on supercomputer
   - **&quot;pore1.seed1 (sample data)&quot; folder**
