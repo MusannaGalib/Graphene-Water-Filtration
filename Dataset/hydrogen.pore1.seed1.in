@@ -1,0 +1,194 @@
+# March 20, 2016
+# Hydrogenated graphene pore desalination, changing porosity and allowing membrane deformation
+
+# System setup
+atom_style  full
+units   real
+dimension 3
+boundary p p p
+
+# Read/analyze init geometry
+read_data graphene.hydrogen.pore1.dat
+variable natoms equal "count(all)"
+
+# Define interaction parameters
+pair_style hybrid lj/cut/tip4p/long 4 3 1 1 0.1546 13.0 airebo 3.0 0 1
+pair_modify tail yes
+bond_style harmonic
+angle_style harmonic
+dihedral_style none
+
+# ------------- Regions and Groups ---------------- 
+group carbon    	type 1 5 # Membrane and piston carbon atoms
+group ox        	type 4				# Water oxygen
+group hy        	type 3				# Water hydrogen
+group na        	type 6			# Salt sodium
+group cl        	type 2			# Salt chloride
+
+group h_hydrogen    type 8			# Pore hydrogen
+group c_hydrogen    type 7			# Pore carbon
+group hydrogengroup union h_hydrogen c_hydrogen
+
+# Defining the positions of all four carbon planes
+variable zpiston1 equal -50
+variable zmembrane1 equal 0
+variable zpiston2 equal "20"
+
+# Defining the piston and the membrane carbons
+variable zmin equal ${zpiston1}-1.0
+variable zmax equal ${zpiston1}+1.0
+region piston1zone   block INF INF INF INF ${zmin} ${zmax} units box
+
+variable zmin equal ${zmembrane1}-1.0
+variable zmax equal ${zmembrane1}+1.0
+region  membrane1zone  block INF INF INF INF ${zmin} ${zmax} units box
+
+variable zmin equal ${zpiston2}-1.0
+variable zmax equal ${zpiston2}+1.0
+region piston2zone   block INF INF INF INF ${zmin} ${zmax} units box
+
+group piston1			region piston1zone		# whole piston1 (carbon)
+group piston2			region piston2zone		# whole piston2 (carbon)
+group bothpistons       union piston1 piston2
+group membrane1_atoms	region membrane1zone 
+group totalmembrane     union membrane1_atoms
+group not_hy subtract all hy
+
+# Defining fixed membrane atom
+group fixedatoms id 5990
+group membrane1_free subtract membrane1_atoms fixedatoms
+
+# Defining water groups
+group water			union ox hy
+group saltwater		union water na cl
+group notsaltwater	subtract all saltwater
+
+# Defining group of atoms in Nose-Hoover thermostat
+group thermostat_target union saltwater membrane1_free piston1 piston2
+
+# Setting hydrogen charges (from Birkett et al.)
+set group c_hydrogen charge -0.115
+set group h_hydrogen charge 0.115
+
+# Setting water charges
+set group ox charge -1.0484
+set group hy charge  0.5242
+set group na charge  1.
+set group cl charge -1.
+
+# ------------- Coefficients ----------------
+
+# AIREBO:
+pair_coeff * * airebo CH.airebo_real C NULL NULL NULL NULL NULL C H
+
+# Lennard-Jones: sigmaAB = (1/2)(sigmaAA + sigmaBB), epsilonAB = (epsilonAA*epsilonBB)^0.5
+# Syntax: pair_coeff atom_i atom_j epsilon sigma
+pair_coeff 1 2 lj/cut/tip4p/long 0.031702 4.2821			# C-CL
+pair_coeff 1 3 lj/cut/tip4p/long 0 0						# C-H
+pair_coeff 1 4 lj/cut/tip4p/long 0.12613 3.2793			# C-O
+pair_coeff 1 5 lj/cut/tip4p/long 0.019208 3.3749		# C-piston
+pair_coeff 1 6 lj/cut/tip4p/long 0.12027 2.8293			# C-NA
+pair_coeff 2 2 lj/cut/tip4p/long 0.0117 5.1645			# CL-CL
+pair_coeff 2 3 lj/cut/tip4p/long 0 0						# CL-H
+pair_coeff 2 4 lj/cut/tip4p/long 0.046549 4.1617			# CL-O
+pair_coeff 2 5 lj/cut/tip4p/long 0.0070888 4.2572	# CL-piston
+pair_coeff 2 6 lj/cut/tip4p/long 0.044388 3.7117		# CL-NA
+pair_coeff 2 7 lj/cut/tip4p/long 0.028679 4.3573		# CL-zC
+pair_coeff 2 8 lj/cut/tip4p/long 0.018766 3.7923		# CL-zH
+pair_coeff 3 3 lj/cut/tip4p/long 0 0						# H-H
+pair_coeff 3 4 lj/cut/tip4p/long 0 0						# H-O
+pair_coeff 3 5 lj/cut/tip4p/long 0 0					# H-piston
+pair_coeff 3 6 lj/cut/tip4p/long 0 0						# H-NA
+pair_coeff 3 7 lj/cut/tip4p/long 0 0						# H-zC
+pair_coeff 3 8 lj/cut/tip4p/long 0 0						# H-zH
+pair_coeff 4 4 lj/cut/tip4p/long 0.1852 3.1589			# O-O
+pair_coeff 4 5 lj/cut/tip4p/long 0.028203 3.2545		# O-piston
+pair_coeff 4 6 lj/cut/tip4p/long 0.1766 2.7089			# O-NA
+pair_coeff 4 7 lj/cut/tip4p/long 0.1141 3.3544			# O-zC
+pair_coeff 4 8 lj/cut/tip4p/long 0.074663 2.7894			# O-zH
+pair_coeff 5 5 lj/cut/tip4p/long 0.004295 3.35	# piston-piston
+pair_coeff 5 6 lj/cut/tip4p/long 0.026894 2.8045	# piston-NA
+pair_coeff 5 7 lj/cut/tip4p/long 0.017376 3.45		# piston-zC
+pair_coeff 5 8 lj/cut/tip4p/long 0.01137 2.885		# piston-zH
+pair_coeff 6 6 lj/cut/tip4p/long 0.1684 2.2589			# NA-NA
+pair_coeff 6 7 lj/cut/tip4p/long 0.1088 2.9044			# NA-zC
+pair_coeff 6 8 lj/cut/tip4p/long 0.071196 2.3395		# NA-zH
+
+kspace_style pppm/tip4p 1.0e-4 # Long range Coulombic interaction solver
+
+# Bond and angles coeffs
+# Syntax: angle_coeff N spring_constant theta_0
+bond_coeff * 0.0 0.0 # Zero by default
+angle_coeff * 0.0 0.0 # Zero by default
+
+# Water
+bond_coeff  1 0.0 0.9572 # H2O bond (TIP4P-2005)
+angle_coeff 1 0.0 104.52  # H2O angle (TIP4P-2005)
+
+neighbor        2.0 bin
+neigh_modify	every 1 delay 10 check yes
+
+# ------------- Setup ----------------
+# For the equilibration phase, keep the piston rigid.
+fix pistonfreeze bothpistons setforce 0.0 0.0 0.0
+# Ensure thermostat looking at relevant atoms by defining new temperature calculation for only moveable atoms
+compute selective_thermostat thermostat_target temp
+# And require LAMMPS to use this compute when doing anything related to temperature
+thermo_modify temp selective_thermostat
+
+# ------------- Minimization ----------------        
+thermo_style one       
+thermo 10
+run 0
+
+fix freezewater saltwater setforce 0.0 0.0 0.0
+minimize 1.0e-4 1.0e-6 1000 1000
+unfix freezewater
+
+fix relax all box/relax x 0.0 y 0.0
+minimize 1.0e-4 1.0e-6 100 1000
+unfix relax
+unfix pistonfreeze
+
+# ------------- Equilibration ----------------
+fix pistonkeep bothpistons setforce 0.0 0.0 NULL
+
+# Squeezing water between pistons (150 MPa each)
+fix piston1thrust piston1 aveforce NULL NULL 0.0467
+fix piston2thrust piston2 aveforce NULL NULL -0.0467
+fix 1 water shake 1.0e-4 100 0 b 1 a 1
+fix NVTequilib thermostat_target nvt temp 300 300 50
+timestep 0.5
+# Equilibriate for seed length: 40, 50, 60 ps
+thermo 1000
+dump    equilibdump not_hy atom 100 hydrogen.pore1.seed1.equilib.lammpstrj
+variable equibtime equal 80000+1*20000
+run ${equibtime}
+
+write_restart hydrogen.pore1.seed1.equilb.restart
+print "Equilibration completed."
+unfix NVTequilib
+undump equilibdump
+
+# ------------- Dynamics --------
+unfix piston1thrust
+unfix piston2thrust
+
+# Pressurize pistons and set temperature target
+fix piston1push piston1 aveforce NULL NULL 0.01
+fix piston2push piston2 aveforce NULL NULL -0.000041
+fix NVT thermostat_target nvt temp 300 300 50
+thermo 1000
+
+# Counting the number of waters and ions in the feed region
+region feedzone block INF INF INF INF INF ${zmembrane1} units box 
+variable num_feed_waters equal "count(ox,feedzone)"
+variable num_feed_na equal "count(na,feedzone)"
+variable num_feed_cl equal "count(cl,feedzone)"
+
+thermo_style    custom step temp etotal vol press v_num_feed_waters v_num_feed_na v_num_feed_cl 
+restart 2500000 hydrogen.pore1.seed1.dynamics.restart
+
+dump    fulldump     all atom 1000 hydrogen.pore1.seed1.dynamics.lammpstrj
+run     19000000
+

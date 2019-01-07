@@ -188,8 +188,8 @@ unfix pistonfreeze
 fix pistonkeep bothpistons setforce 0.0 0.0 NULL
 
 # Squeezing water between pistons (150 MPa each)
-fix piston1thrust piston1 aveforce NULL NULL 0.01
-fix piston2thrust piston2 aveforce NULL NULL -0.01
+fix piston1thrust piston1 aveforce NULL NULL 0.0467
+fix piston2thrust piston2 aveforce NULL NULL -0.0467
 fix 1 water shake 1.0e-4 100 0 b $waterbond a $waterangle
 fix NVTequilib thermostat_target nvt temp 300 300 50
 timestep 0.5

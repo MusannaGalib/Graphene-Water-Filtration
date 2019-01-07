@@ -1,0 +1,15 @@
+Let f be the magnitude of the LAMMPS force variable using real units (kcal / Angstrom-mol).
+
+Force = f kcal/Angstrom-mol
+	  = (4.184e13)f J/m-mol
+	  = (4.184e13)f N/mol
+	  = ((4.184e13)f N/mol) * (416 atoms / (6.0222 atom/mol)) [using 416 C atoms]
+      = (2.890e-8)f N
+
+Pressure = Force / Area
+		 = ((2.890e-8)f N) / (3e-9 m)^2
+		 = (3.211e9)f N/m^2
+		 = (3211)f MPa
+
+For 32.11 MPa of pressure, f = (32.11 MPa) / (3211 MPa) = 0.01
+For 150 MPa of pressure, f = (150 MPa) / (3211 MPa) = 0.0467
